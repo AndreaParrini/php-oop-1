@@ -38,17 +38,18 @@ class Movie
      */
     public function getAllGenre()
     {
-        foreach ($this->genres as $genre) {
-            echo $genre;
-        }
-    }
+        // creo una costante per inserire tutti i generi
+        $allGenre = '';
 
-    /**
-     * Function to get languege of movie
-     */
-    public static function getLanguageMovie()
-    {
-        return self::$language;
+        // ciclo all'interno dell'array dei generi
+        foreach ($this->genres as $genre) {
+
+            // aggiungo alla variabile generata prima il genere più una virgola
+            $allGenre .= $genre . ', ';
+        }
+
+        //restituisco la stringa con tutti i generi
+        return $allGenre;
     }
 
     /**
@@ -77,11 +78,67 @@ $movies = [
     new Movie('I soliti idioti 3 - Il ritorno', 90, ['Comedy'], 'https://picsum.photos/200/300'),
 ];
 
+
+
 // ciclo all'interno dell'array per stampare tutti i generi di quel film.
 foreach ($movies as $movie) {
-    $movie->getAllGenre();
-    echo Movie::getLanguageMovie();
-    /* Movie::getPosterOfMovie(); */
+    $movie->setDuration($movie->length);
 }
+//var_dump($movies);
+?>
 
-var_dump($movies);
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List of Movie</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+
+<body>
+    <header class="text-center">
+        <h1>List of Movie - PHP OOP-1</h1>
+    </header>
+
+    <main>
+        <section class="container">
+            <div class="row">
+                <?php foreach ($movies as $movie) : ?>
+                    <div class="col mb-3">
+                        <div class="card" style="width:18rem;">
+                            <img src="<?php echo $movie->poster; ?>" class="card-img-top" alt="...">
+                            <div class="card-body ">
+                                <h5 class="card-title">
+                                    <?php echo $movie->title; ?>
+                                </h5>
+                                <h6 class="card-subtitle mb-2 text-muted ">
+                                    <!-- Richiamo la funzione per la visualizzazione di tutti i generi e con trim cancello l'ultima virgola -->
+                                    <?php echo rtrim($movie->getAllGenre(), ', '); ?>
+                                </h6>
+                                <p class="card-text mb-1">
+                                    Lingua:
+                                    <?php echo ' ' . Movie::$language;  ?>
+                                </p>
+                                <p class="card-text mb-1">
+                                    Durata:
+                                    <?php echo ' ' . $movie->length . 'min';  ?>
+                                </p>
+                                <p class="card-text mb-1">
+                                    Lunghezza:
+                                    <?php echo ' ' . $movie->duration;  ?>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        </section>
+    </main>
+
+</body>
+
+</html>
